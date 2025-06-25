@@ -8,6 +8,6 @@ tags:
   - iosxr
 position: hidden
 ---
-{% include toc icon="table" title="Multicast Scaling" %}
+
 
 1st sonic blog test
