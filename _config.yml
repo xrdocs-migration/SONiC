@@ -7,14 +7,14 @@
 
 # Site Settings
 locale                   : "en-US"
-title                    : "Multicast on IOS XR platforms @xrdocs"
-title_short              : "Multicast"
+title                    : "SONiC on IOS XR platforms @xrdocs"
+title_short              : "SONiC"
 title_separator          : "|"
 name                     : &name "Cisco Systems Inc"
-description              : &description "Documentation, Blogs and Tutorials on Multicast with IOS-XR"
+description              : &description "Documentation, Blogs and Tutorials on SONiC"
 url                      : "https://xrdocs.io" # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
-baseurl                  : "/multicast" # the subpath of your site, e.g. "/blog"
-gh_repo                  : "https://github.com/xrdocs/multicast"
+baseurl                  : "/SONiC" # the subpath of your site, e.g. "/blog"
+gh_repo                  : "https://github.com/xrdocs/SONiC"
 teaser                   : # filename of teaser fallback teaser image placed in /images/, .e.g. "500x300.png"
 # breadcrumbs            : false # true, false (default)
 words_per_minute         : 200
