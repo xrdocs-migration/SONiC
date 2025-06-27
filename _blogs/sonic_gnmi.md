@@ -112,28 +112,28 @@ docker exec -it gnmi bash
   
 and, as the name suggest, we'd be most likely interested in gnmi-native:
 
-<pre>
+```diff
 supervisorctl status
   
   dependent-startup                EXITED    Jun 27 12:17 AM
   dialout                          RUNNING   pid 20, uptime 7:21:20
-<mark>  gnmi-native                      RUNNING   pid 18, uptime 7:21:21</mark> 
++ gnmi-native                      RUNNING   pid 18, uptime 7:21:21
   rsyslogd                         RUNNING   pid 11, uptime 7:21:25
   start                            EXITED    Jun 27 12:17 AM
   supervisor-proc-exit-listener    RUNNING   pid 8, uptime 7:21:27
-</pre>
+```
 
 The configuration for `gnmi-native` is specified in `/etc/supervisor/conf.d/supervisord.conf`. Open the file and locate the relevant section:
 
 
-<pre>
+```diff
 less /etc/supervisor/conf.d/supervisord.conf
 
 ...
 
 
   [program:gnmi-native]
-<mark> command=/usr/bin/gnmi-native.sh</mark> 
++ command=/usr/bin/gnmi-native.sh
   priority=3
   autostart=false
   autorestart=false
@@ -144,7 +144,7 @@ less /etc/supervisor/conf.d/supervisord.conf
 
 ...
 
-</pre>
+```
 
 Next, examine the gnmi-native.sh script to understand how the service is configured and launched:
 
@@ -152,5 +152,4 @@ Next, examine the gnmi-native.sh script to understand how the service is configu
 less /usr/bin/gnmi-native.sh
 ```
 
-
-
+and yes, we have the source code on gitHub, we can check the files from there too:  
