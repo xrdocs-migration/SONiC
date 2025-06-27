@@ -152,9 +152,10 @@ Next, examine the gnmi-native.sh script to understand how the service is configu
 less /usr/bin/gnmi-native.sh
 ```
 
-and yes, we have the source code on gitHub, we can check the files from there too.
+and yes, we have the source code on gitHub, we can check the files from there too:  
 
-<https://github.com/sonic-net/sonic-buildimage/blob/master/dockers/docker-sonic-gnmi/gnmi-native.sh>
+
+https://github.com/sonic-net/sonic-buildimage/blob/master/dockers/docker-sonic-gnmi/gnmi-native.sh
 
 
 This script retrieves variables from the `TELEMETRY_VARS_FILE`, which is a template located at `/usr/share/sonic/templates/telemetry_vars.j2`. 
