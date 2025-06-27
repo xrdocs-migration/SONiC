@@ -102,5 +102,55 @@ docker inspect gnmi
 
 ```
 
+Cmd has nothing but Entrypoint launches supervisord, a process control system.
+
+connect to the gNMI container and inspect the processes managed by `supervisord`:
+
+```
+docker exec -it gnmi bash
+```
+  
+and, as the name suggest, we'd be most likely interested in gnmi-native:
+
+<pre>
+supervisorctl status
+  
+  dependent-startup                EXITED    Jun 27 12:17 AM
+  dialout                          RUNNING   pid 20, uptime 7:21:20
+<mark>  gnmi-native                      RUNNING   pid 18, uptime 7:21:21</mark> 
+  rsyslogd                         RUNNING   pid 11, uptime 7:21:25
+  start                            EXITED    Jun 27 12:17 AM
+  supervisor-proc-exit-listener    RUNNING   pid 8, uptime 7:21:27
+</pre>
+
+The configuration for `gnmi-native` is specified in `/etc/supervisor/conf.d/supervisord.conf`. Open the file and locate the relevant section:
+
+
+<pre>
+less /etc/supervisor/conf.d/supervisord.conf
+
+...
+
+
+  [program:gnmi-native]
+<mark> command=/usr/bin/gnmi-native.sh</mark> 
+  priority=3
+  autostart=false
+  autorestart=false
+  stdout_logfile=syslog
+  stderr_logfile=syslog
+  dependent_startup=true
+  dependent_startup_wait_for=start:exited
+
+...
+
+</pre>
+
+Next, examine the gnmi-native.sh script to understand how the service is configured and launched:
+
+```
+less /usr/bin/gnmi-native.sh
+```
+
 
 
