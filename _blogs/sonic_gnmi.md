@@ -153,3 +153,36 @@ less /usr/bin/gnmi-native.sh
 ```
 
 and yes, we have the source code on gitHub, we can check the files from there too:  
+
+Here’s the template:
+
+
+```
+cat /usr/share/sonic/templates/telemetry_vars.j2
+{
+    "certs": {% if "certs" in GNMI.keys() %}{{ GNMI["certs"] }}{% else %}""{% endif %},
+    "gnmi" : {% if "gnmi" in GNMI.keys() %}{{ GNMI["gnmi"] }}{% else %}""{% endif %},
+    "x509" : {% if "x509" in DEVICE_METADATA.keys() %}{{ DEVICE_METADATA["x509"] }}{% else %}""{% endif %}
+}
+```
+
+and next TELEMETRY_VARS will be populated running `sonic-cfggen` with this template
+
+```
+TELEMETRY_VARS=$(sonic-cfggen -d -t $TELEMETRY_VARS_FILE)
+```
+
+From this we can understand the script would be searching for: 
+
+```
+{
+    "GNMI": {
+        "certs":
+        "gnmi": 
+    }
+    DEVICE_METADATA: {
+        x509:
+    }
+}
+```
+
