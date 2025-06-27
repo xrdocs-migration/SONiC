@@ -110,7 +110,7 @@ connect to the gNMI container and inspect the processes managed by `supervisord`
 docker exec -it gnmi bash
 ```
   
-and, as the name suggest, we'd be most likely interested in gnmi-native:
+and, as the name suggest, we'd be most likely interested in `gnmi-native`:
 
 ```diff
 supervisorctl status
@@ -123,7 +123,7 @@ supervisorctl status
   supervisor-proc-exit-listener    RUNNING   pid 8, uptime 7:21:27
 ```
 
-The configuration for `gnmi-native` is specified in `/etc/supervisor/conf.d/supervisord.conf`. Open the file and locate the relevant section:
+The configuration for `gnmi-native` is specified in `/etc/supervisor/conf.d/supervisord.conf`.   Open the file and locate the relevant section:
 
 
 ```diff
@@ -146,14 +146,17 @@ less /etc/supervisor/conf.d/supervisord.conf
 
 ```
 
-Next, examine the gnmi-native.sh script to understand how the service is configured and launched:
+
+
+Next, examine the `gnmi-native.sh` script to understand how the service is configured and launched:
 
 ```
 less /usr/bin/gnmi-native.sh
 ```
 
+
 and yes, we have the source code on gitHub, we can check the files from there too:  
-https://github.com/sonic-net/sonic-buildimage/blob/master/dockers/docker-sonic-gnmi/gnmi-native.sh
+<https://github.com/sonic-net/sonic-buildimage/blob/master/dockers/docker-sonic-gnmi/gnmi-native.sh>
 
 
 This script retrieves variables from the `TELEMETRY_VARS_FILE`, which is a template located at `/usr/share/sonic/templates/telemetry_vars.j2`. 
@@ -167,11 +170,12 @@ cat /usr/share/sonic/templates/telemetry_vars.j2
 ![sonic_gnmi_p1_telemetry_vars.j2.png]({{site.baseurl}}/images/sonic_gnmi_p1_telemetry_vars.j2.png)
 
 
-and next TELEMETRY_VARS will be populated running `sonic-cfggen` with this template
+TELEMETRY_VARS will be populated running `sonic-cfggen` with this template
 
 ```
 TELEMETRY_VARS=$(sonic-cfggen -d -t $TELEMETRY_VARS_FILE)
 ```
+
 
 From this we can understand the script would be searching for: 
 
@@ -211,6 +215,7 @@ Based on it the expected configuration would be:
 }
 ```
 
+
 Ultimately, the configuration is translated into `telemetry` process arguments and the process is lunched:
 
 ```
@@ -233,8 +238,7 @@ To configure Telemetry and gNMI on SONiC, we need to push gNMI telelmetry items 
         "gnmi": {
             "client_auth": "true",
             "log_level": "2",
-            "port": "50051",
-            "save_on_set": "false"
+            "port": "50051"
         }
     }
 }
@@ -249,7 +253,7 @@ The `gnmi` key allows users to configure gNMI parameters such as:
 - `client_auth`: Whether the telemetry stream will be encrypted or not
 - `log_level`: Set the log level
 - `port`: The TCP port on which the gRPC server will listen for requests
-- `save_on_set`: Whether the configuration is automatically saved on gNMI SET operations.
+
 
 #### Example configuration workflow
 
