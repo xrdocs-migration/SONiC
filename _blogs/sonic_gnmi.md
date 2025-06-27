@@ -159,3 +159,12 @@ https://github.com/sonic-net/sonic-buildimage/blob/master/dockers/docker-sonic-g
 This script retrieves variables from the `TELEMETRY_VARS_FILE`, which is a template located at `/usr/share/sonic/templates/telemetry_vars.j2`. 
 
 Here’s the template:
+
+```
+cat /usr/share/sonic/templates/telemetry_vars.j2
+{
+    "certs": {\% if "certs" in GNMI.keys() \%}{{ GNMI["certs"] }}{\% else \%}""{\% endif \%},
+    "gnmi" : {\% if "gnmi" in GNMI.keys() \%}{{ GNMI["gnmi"] }}{\% else \%}""{\% endif \%},
+    "x509" : {\% if "x509" in DEVICE_METADATA.keys() % }{{ DEVICE_METADATA["x509"] }}{\% else \%}""{\% endif \%}
+}
+```
