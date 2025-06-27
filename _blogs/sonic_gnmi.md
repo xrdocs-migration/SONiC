@@ -34,9 +34,9 @@ Here we’ll focus on gNMI as our example but the approach we’re about to disc
 
 #### Connecting the dots
 
-Lets track down the gnmi subsystem and order to understand how it starts what configuration is expected from us
+Lets track down the gnmi subsystem and order to understand how it starts and what configuration is expected.
 
-Being on a SONiC system looks at the running containers and search for telemetry (old name) or gnmi (new name)
+Start by identifying the container associated with gNMI. Since SONiC uses Docker containers for its various subsystems, we can use the `docker ps` command and search for telemetry (old name) or gnmi (new name)
 
 ```diff
   docker ps
@@ -57,3 +57,168 @@ Being on a SONiC system looks at the running containers and search for telemetry
   14a8ebc09b99   docker-database:latest               "/usr/local/bin/dock…"   3 days ago     Up 7 hours             database
   root@sl1:/home/cisco#
 ```
+
+Next, inspect gnmi docker container and search for Cmd and/or Entrypoint 
+
+```diff
+
+docker inspect gnmi
+
+"Config": {
+            "Hostname": "sonic",
+            "Domainname": "",
+            "User": "",
+            "AttachStdin": false,
+            "AttachStdout": true,
+            "AttachStderr": true,
+            "Tty": true,
+            "OpenStdin": false,
+            "StdinOnce": false,
+            "Env": [
+                "SYSLOG_TARGET_IP=127.0.0.1",
+                "PLATFORM=x86_64-kvm_x86_64-r0",
+                "RUNTIME_OWNER=local",
+                "NAMESPACE_ID=",
+                "NAMESPACE_PREFIX=asic",
+                "NAMESPACE_COUNT=1",
+                "DEV=",
+                "CONTAINER_NAME=gnmi",
+                "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+                "IMAGENAME=docker-sonic-gnmi",
+                "DISTRO=bookworm",
+                "DEBIAN_FRONTEND=noninteractive",
+                "IMAGE_VERSION=HEAD.0-dirty-20250303.105824"
+            ],
++           "Cmd": null,
+            "Image": "docker-sonic-gnmi:latest",
+            "Volumes": null,
+            "WorkingDir": "",
++           "Entrypoint": [
++               "/usr/local/bin/supervisord"
+            ],
+
+   ... 
+
+
+```
+
+Cmd has nothing but Entrypoint launches supervisord, a process control system.
+
+connect to the gNMI container and inspect the processes managed by `supervisord`:
+
+```
+docker exec -it gnmi bash
+```
+  
+and, as the name suggest, we'd be most likely interested in gnmi-native:
+
+```diff
+supervisorctl status
+  
+  dependent-startup                EXITED    Jun 27 12:17 AM
+  dialout                          RUNNING   pid 20, uptime 7:21:20
++ gnmi-native                      RUNNING   pid 18, uptime 7:21:21
+  rsyslogd                         RUNNING   pid 11, uptime 7:21:25
+  start                            EXITED    Jun 27 12:17 AM
+  supervisor-proc-exit-listener    RUNNING   pid 8, uptime 7:21:27
+```
+
+The configuration for `gnmi-native` is specified in `/etc/supervisor/conf.d/supervisord.conf`. Open the file and locate the relevant section:
+
+
+```diff
+less /etc/supervisor/conf.d/supervisord.conf
+
+...
+
+
+  [program:gnmi-native]
++ command=/usr/bin/gnmi-native.sh
+  priority=3
+  autostart=false
+  autorestart=false
+  stdout_logfile=syslog
+  stderr_logfile=syslog
+  dependent_startup=true
+  dependent_startup_wait_for=start:exited
+
+...
+
+```
+
+Next, examine the gnmi-native.sh script to understand how the service is configured and launched:
+
+```
+less /usr/bin/gnmi-native.sh
+```
+
+and yes, we have the source code on gitHub, we can check the files from there too.
+
+<https://github.com/sonic-net/sonic-buildimage/blob/master/dockers/docker-sonic-gnmi/gnmi-native.sh>
+
+
+This script retrieves variables from the `TELEMETRY_VARS_FILE`, which is a template located at `/usr/share/sonic/templates/telemetry_vars.j2`. 
+
+Here’s the template:
+
+
+```
+cat /usr/share/sonic/templates/telemetry_vars.j2
+{
+    "certs": {% if "certs" in GNMI.keys() %}{{ GNMI["certs"] }}{% else %}""{% endif %},
+    "gnmi" : {% if "gnmi" in GNMI.keys() %}{{ GNMI["gnmi"] }}{% else %}""{% endif %},
+    "x509" : {% if "x509" in DEVICE_METADATA.keys() %}{{ DEVICE_METADATA["x509"] }}{% else %}""{% endif %}
+}
+```
+
+and next TELEMETRY_VARS will be populated running `sonic-cfggen` with this template
+
+```
+TELEMETRY_VARS=$(sonic-cfggen -d -t $TELEMETRY_VARS_FILE)
+```
+
+From this we can understand the script would be searching for: 
+
+```
+{
+    "GNMI": {
+        "certs":
+        "gnmi": 
+    }
+    DEVICE_METADATA: {
+        x509:
+    }
+}
+```
+
+I won't go though every line of [gnmi-native.sh](https://github.com/sonic-net/sonic-buildimage/blob/master/dockers/docker-sonic-gnmi/gnmi-native.sh) but you've got an idea on what this script is looking for and where. 
+
+Based on it the expected configuration would be:
+
+```
+{
+    "TELEMETRY": {
+        "certs": {
+            "ca_crt": "",
+            "server_crt": "",
+            "server_key": ""
+        },
+        "gnmi": {
+            "client_auth": "",
+            "log_level": "",
+            "port": "",
+            "threshold": "",
+            "idle_conn_duration: "",
+            "user_auth" : ""
+        }
+    }
+}
+```
+
+Ultimately, the configuration is translated into `telemetry` process arguments and the process is lunched:
+
+```
+exec /usr/sbin/telemetry ${TELEMETRY_ARGS}
+```
+
+
