@@ -160,11 +160,11 @@ This script retrieves variables from the `TELEMETRY_VARS_FILE`, which is a templ
 
 Here’s the template:
 
-<pre>
+```
 cat /usr/share/sonic/templates/telemetry_vars.j2
 {
-    "certs": {% if "certs" in GNMI.keys() %}{{ GNMI["certs"] }}{% else %}""{% endif %},
-    "gnmi" : {% if "gnmi" in GNMI.keys() %}{{ GNMI["gnmi"] }}{% else %}""{% endif %},
-    "x509" : {% if "x509" in DEVICE_METADATA.keys() %}{{ DEVICE_METADATA["x509"] }}{% else %}""{% endif %}
+    "certs": { % if "certs" in GNMI.keys() % }{{ GNMI["certs"] }}{ % else % }""{% endif %},
+    "gnmi" : { % if "gnmi" in GNMI.keys() % }{{ GNMI["gnmi"] }}{ % else % }""{% endif %},
+    "x509" : { % if "x509" in DEVICE_METADATA.keys() % }{{ DEVICE_METADATA["x509"] }}{ % else % }""{ % endif % }
 }
-<pre>
+```
