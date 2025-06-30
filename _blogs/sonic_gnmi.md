@@ -216,7 +216,7 @@ Based on it the expected configuration would be:
 ```
 
 
-Ultimately, the configuration is translated into `telemetry` process arguments and the process is lunched:
+Ultimately, the configuration is translated into telemetry process arguments, and the process is launched:
 
 ```
 exec /usr/sbin/telemetry ${TELEMETRY_ARGS}
@@ -984,3 +984,7 @@ Collecting info from requested paths (Get operation)...
     ]
 }
 ```
+
+## Conclusion 
+
+In this article, we explored how to configure and use gNMI on SONiC, including identifying the gNMI subsystem, configuring telemetry settings, and testing with gNMI clients like pygnmi and gnmic. We also demonstrated how to fetch configuration and telemetry data. In the next article, we’ll cover creating self-signed certificates for SONiC. Stay tuned!
