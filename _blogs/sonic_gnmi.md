@@ -1,13 +1,14 @@
 ---
 published: true
-date: '2025-06-27 09:01 +0200'
+date: '2025-06-30 09:01 +0200'
 title: SONiC gNMI
 author: Alexei Kiritchenko
 excerpt: Enabling GNMI on SONiC
-position: hidden
+position: top
 tags:
   - sonic
   - gnmi
+  - telemetry
 ---
 
 {% include toc %}
