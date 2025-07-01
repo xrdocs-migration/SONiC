@@ -1,6 +1,6 @@
 ---
 published: true
-date: '2025-06-30 09:01 +0200'
+date: '2025-07-01 17:51 +0200'
 title: SONiC gNMI
 author: Alexei Kiritchenko
 excerpt: Enabling GNMI on SONiC
@@ -29,7 +29,7 @@ Let’s face it, configuring SONiC can sometimes feel like a treasure hunt. You 
 The good news? SONiC is an open-source platform, which means we have access to its source code and we have right tools and information to get all we need. 
 
 
-Here we’ll focus on gNMI as our example but the approach we’re about to discuss is not limited to gNMI, it can be applied to any other SONiC SONiC.
+Here we’ll focus on gNMI as our example but the approach we’re about to discuss is not limited to gNMI, it can be applied to any other SONiC subsystem.
 
 
 
