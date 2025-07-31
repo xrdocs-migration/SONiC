@@ -89,17 +89,14 @@ sudo openssl req -new -newkey rsa:4096 -nodes \
 
 ### Set Read Permissions on the Node Private Key
 
-<pre>
-<code>
- ls -lh
-total 16K
--rw-r--r-- 1 root root 1.8K Jul 31 11:34 dsmsroot.cer
--rw------- 1 root root 3.2K Jul 31 11:34 dsmsroot.key
--rw-r--r-- 1 root root 1.7K Jul 31 11:37 streamingtelemetryserver.csr
-<mark>-rw------- 1 root root 3.2K Jul 31 11:37 streamingtelemetryserver.key</mark>
+```diff
+  ls -lh
+  total 16K
+  -rw-r--r-- 1 root root 1.8K Jul 31 11:34 dsmsroot.cer
+  -rw------- 1 root root 3.2K Jul 31 11:34 dsmsroot.key
+  -rw-r--r-- 1 root root 1.7K Jul 31 11:37 streamingtelemetryserver.csr
++ -rw------- 1 root root 3.2K Jul 31 11:37 streamingtelemetryserver.key
 ```
-</code>
-</pre>
 
 add read permissions to the key cert file:
 
@@ -107,20 +104,124 @@ add read permissions to the key cert file:
 sudo chmod a+r streamingtelemetryserver.key
 ```
 
+```diff
+  ls -lh
+  total 16K
+  -rw-r--r-- 1 root root 1.8K Jul 31 11:34 dsmsroot.cer
+  -rw------- 1 root root 3.2K Jul 31 11:34 dsmsroot.key
+  -rw-r--r-- 1 root root 1.7K Jul 31 11:37 streamingtelemetryserver.csr
++ -rw-r--r-- 1 root root 3.2K Jul 31 11:37 streamingtelemetryserver.key
 ```
-ls -lh
-total 16K
--rw-r--r-- 1 root root 1.8K Jul 31 11:34 dsmsroot.cer
--rw------- 1 root root 3.2K Jul 31 11:34 dsmsroot.key
--rw-r--r-- 1 root root 1.7K Jul 31 11:37 streamingtelemetryserver.csr
--rw-r--r-- 1 root root 3.2K Jul 31 11:37 streamingtelemetryserver.key
+
+### CreateSubject Alternative Name
+
+Create a san.ext file and add Subject Alternate Name into it:
+
+```
+vim san.ext
+```
+
+```
+subjectAltName = DNS:c1.sonic.cisco.com, DNS:c1, IP:1.18.1.1
+```
+
+### Sign the Node Certificate with the Root CA
+
+Sign a node certificate signed by the CA certificate:
+
+```
+sudo openssl x509 -req -in streamingtelemetryserver.csr \
+  -CA dsmsroot.cer -CAkey dsmsroot.key -CAcreateserial \
+  -out streamingtelemetryserver.cer -days 3650 -sha512 \
+  -extfile ./san.ext
 ```
 
 
+### Verify Subject Alternative Names in the Node Certificate
 
 
-Create certificates first in the SONiC home folder and then copy them to the gNMI server and to `/etc/sonic/telemetry/`
+Check SAN are in the file `openssl x509 -in streamingtelemetryserver.cer -text -noout | grep -A 1 "Subject Alternative Name"`
+
+```
+root@c1:/home/cisco/cert# openssl x509 -in streamingtelemetryserver.cer -text -noout | grep -A 1 "Subject Alternative Name"
+            X509v3 Subject Alternative Name:
+                DNS:c1.sonic.cisco.com, DNS:c1, IP Address:1.18.1.1
+
+```
 
 
+### Copy Certificates and Key to SONiC Telemetry Directory
 
+Make sure `/etc/sonic/telemetry/` exists and create it if needed.
+
+Copy the certificates into the expected `/etc/sonic/telemetry/` place
+
+```
+sudo cp dsmsroot.cer /etc/sonic/telemetry/
+sudo cp streamingtelemetryserver.cer /etc/sonic/telemetry/
+sudo cp streamingtelemetryserver.key /etc/sonic/telemetry/
+```
+
+### Restart the gNMI Docker Container
+
+Restart gnmi docker container for the router to pick up the new certificates:
+
+```
+sudo docker restart gnmi
+```
+
+
+### Set Up a Directory for Certificates on the gNMI Server
+
+Create a certs folder on the gNMI server to keep the certificates from the nodes. 
+
+```
+cd
+mkdir certs
+```
+
+### Copy Certificates from Node to gNMI Server
+
+copy the certificates from the node:
+
+
+```
+scp cisco@c1.sonic.cisco.com:~/cert/dsmsroot.cer RootCA.crt
+scp cisco@c1.sonic.cisco.com:~/cert/streamingtelemetryserver.cer c1.sonic.cisco.com.crt
+scp cisco@c1.sonic.cisco.com:~/cert/streamingtelemetryserver.key c1.sonic.cisco.com.key
+```
+
+## Test gNMI
+
+Having certificates in place on the server, test gNMI getting its capabilities:
+
+```
+root@8ktme:/home/cisco/ansible# gnmic -a 1.18.1.1:50051 \
+    --tls-ca "./certs/RootCA.crt" \
+    --tls-cert "./certs/c1.sonic.cisco.com.crt" \
+    --tls-key "./certs/c1.sonic.cisco.com.key" \
+    -u cisco -p cisco123 \
+    capabilities
+gNMI version: 0.7.0
+supported models:
+  - openconfig-acl, OpenConfig working group, 1.0.2
+  - openconfig-acl, OpenConfig working group,
+  - openconfig-sampling-sflow, OpenConfig working group,
+  - openconfig-interfaces, OpenConfig working group,
+  - openconfig-lldp, OpenConfig working group, 1.0.2
+  - openconfig-platform, OpenConfig working group, 1.0.2
+  - openconfig-system, OpenConfig working group, 1.0.2
+  - ietf-yang-library, IETF NETCONF (Network Configuration) Working Group, 2016-06-21
+  - sonic-db, SONiC, 0.1.0
+supported encodings:
+  - JSON
+  - JSON_IETF
+  - PROTO
+  ```
+  
+  
+  ## gNMI Articles
+  
+  1. [SONiC gNMI](sonic_gnmi)
+  2. [Self Signed Certificate for gNMI](selfSingnedCert)
 
