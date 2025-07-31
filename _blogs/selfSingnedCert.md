@@ -220,8 +220,8 @@ supported encodings:
   ```
   
   
-  ## gNMI Articles
+## gNMI Articles
   
-  1. [SONiC gNMI](sonic_gnmi)
-  2. [Self Signed Certificate for gNMI](selfSingnedCert)
+  1. [SONiC gNMI](../sonic_gnmi)
+  2. [Self Signed Certificate for gNMI](../selfSingnedCert)
 
