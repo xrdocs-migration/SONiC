@@ -16,8 +16,6 @@ position: hidden
 
 The Public key infrastructure (PKI) is used to create, distribute, mange digital certificates and keys. In this article we go over steps and deploying your own PKI lab infrastructure
 
-In this POC a linux server will serve as the CA root point. To ensure security, keys will be stored in the `/root/ca/private/` directory with permissions set to 600, restricting access to the root user only.
-
 
 
 ## Steps on building your own Public Key lab Infrastructure
@@ -37,7 +35,7 @@ Steps on building your own Public Key lab Infrastructure
 ## Create Self-Signed CA Root certificate
 
 
-Our lab Linux server will serve as the CA root point. To ensure security, keys will be stored in the `/root/ca/private/` directory with permissions set to `600`, restricting access to the root user only.
+In this POC our lab Linux server will serve as the CA root point. To ensure security, keys will be stored in the `/root/ca/private/` directory with permissions set to `600`, restricting access to the root user only.
 
 ```
 root@8ktme:~# cd /root/ca/private/
@@ -83,7 +81,8 @@ Certificate:
  ```
  
  
- ## Add SONiC devices to PKI
+ 
+## Add SONiC devices to PKI
 
 Steps to add routers to PKI:
 
@@ -126,7 +125,7 @@ Create the folder:
 mkdir /etc/sonic/telemetry/
 ```
 
-RootCA.crt is needed on SONiC devices for certificates request. Use `~/cert` folder as temp place
+`RootCA.crt` is needed on SONiC devices for certificates request. Use `~/cert` folder as temp place
 
 ```
 mkdir ~/cert
@@ -229,7 +228,8 @@ Certificate:
 
  ```
  
- ## Copy the signed certificate back to the router
+
+## Copy the signed certificate back to the router
 
 ```
 scp c1.sonic.cisco.com.crt cisco@c1.sonic.cisco.com:~/cert/
@@ -258,6 +258,7 @@ tcp              LISTEN            0                 512                        
 ```
 
 
+## Get the key file from a router
 
 ```
 scp cisco@c1.sonic.cisco.com:~/cert/c1.sonic.cisco.com.key c1.sonic.cisco.com.key
