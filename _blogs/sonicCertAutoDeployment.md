@@ -13,6 +13,8 @@ position: hidden
 
 {% include toc %}
 
+Deploying certificates, especially in complex network environments like those running SONiC NOS, can be a daunting task. Manually handling certificate generation, distribution, and renewal across multiple devices is not only tedious and time-consuming but also highly susceptible to human error. Furthermore, manual processes simply do not scale effectively as your network grows. This is where automation becomes indispensable. By leveraging tools like Ansible, the entire certificate deployment lifecycle can be streamlined, ensuring consistency, reducing errors, and enabling efficient management of your network's security infrastructure at scale.
+
 ## Ansible
 
 Ansible to be used in the lab for small automation tasks. Certificates deployment automation is explored in this section.
@@ -31,7 +33,7 @@ mkdir inventories
 touch inventories/hosts.yaml
 ```
 
-Here you can find `hosts.yaml` example used for the lab: 
+Here you can find `hosts.yaml` example used for the lab: [hosts.yaml](https://github.com/sedoychel/sonicCertAutoDeployment/blob/main/inventories/hosts.yaml)
 
 Playbook file is `playbooks/tls_deployment.yaml`
 
@@ -62,7 +64,7 @@ ansible-playbook -i inventories/hosts.yaml playbooks/tls_deployment.yaml
 
 Example output. The deployment is limited to c8 host only:
 
-```ansible
+``` ansible
 ansible-playbook -i inventories/hosts.yaml playbooks/tls_deployment.yaml
 
 PLAY [TLS setup on local host] **************************************************************************
