@@ -28,16 +28,16 @@ Inventory file is `inventories/hosts.yaml`
 
 ```
 mkdir inventories
-touch hosts.yaml
+touch inventories/hosts.yaml
 ```
 
 Here you can find `hosts.yaml` example used for the lab: 
 
-Playbook file is `playbooks/tls_deployment.yaml'
+Playbook file is `playbooks/tls_deployment.yaml`
 
 ```
 mkdir playbooks
-touch tls_deployment.yaml 
+touch playbooks/tls_deployment.yaml 
 ```
 
 ## TLS certificates deployment
@@ -53,6 +53,75 @@ tls_deployment.yaml ansible playbook runs the following tasks:
 - restart gnmi contaner
 
 Here you can find `tls_deployment.yaml` playbook used for the lab: 
+
+## Deploying Certificates
+
+```
+ansible-playbook -i inventories/hosts.yaml playbooks/tls_deployment.yaml
+```
+
+Example output. The deployment is limited to c8 host only:
+
+```ansible
+ansible-playbook -i inventories/hosts.yaml playbooks/tls_deployment.yaml
+
+PLAY [TLS setup on local host] **************************************************************************
+
+TASK [Gathering Facts] **********************************************************************************
+ok: [localhost]
+
+TASK [Create a folder for certificates on the local host] ***********************************************
+changed: [localhost]
+
+TASK [Generate a private key for the CA] ****************************************************************
+changed: [localhost]
+
+TASK [Generate Root CA CSR] *****************************************************************************
+changed: [localhost]
+
+TASK [Generate Root CA certificate] *********************************************************************
+changed: [localhost]
+
+PLAY [Generate private key and CSR for each node on the local host] *************************************
+
+TASK [Gathering Facts] **********************************************************************************
+ok: [c8]
+
+TASK [Ensure the certificate directory exists] **********************************************************
+ok: [c8 -> localhost]
+
+TASK [Generate private key on localhost] ****************************************************************
+changed: [c8 -> localhost]
+
+TASK [Generate CSR on localhost] ************************************************************************
+changed: [c8 -> localhost]
+
+TASK [Sign CSR with RootCA] *****************************************************************************
+changed: [c8 -> localhost]
+
+TASK [Create a telemetry folder] ************************************************************************
+changed: [c8]
+
+TASK [Copy RootCA.crt to the target node] ***************************************************************
+changed: [c8]
+
+TASK [Copy keys to the target node] *********************************************************************
+changed: [c8]
+
+TASK [crt to the target node] ***************************************************************************
+changed: [c8]
+
+TASK [Restart Docker gnmi container] ********************************************************************
+changed: [c8]
+
+PLAY RECAP **********************************************************************************************
+c8                         : ok=10   changed=8    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+localhost                  : ok=5    changed=4    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+```
+
+
+
+
 
 
 
