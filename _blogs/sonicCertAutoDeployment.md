@@ -64,7 +64,7 @@ ansible-playbook -i inventories/hosts.yaml playbooks/tls_deployment.yaml
 
 Example output. The deployment is limited to c8 host only:
 
-``` ansible
+```
 ansible-playbook -i inventories/hosts.yaml playbooks/tls_deployment.yaml
 
 PLAY [TLS setup on local host] **************************************************************************
@@ -120,6 +120,45 @@ PLAY RECAP *********************************************************************
 c8                         : ok=10   changed=8    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 localhost                  : ok=5    changed=4    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 ```
+
+## Test gNMI
+
+Having certificates in place on the server, test gNMI getting its capabilities:
+
+```
+root@8ktme:/home/cisco/ansible# gnmic -a 1.18.1.8:50051 \
+    --tls-ca "./certs/RootCA.crt" \
+    --tls-cert "./certs/c8.sonic.cisco.com.crt" \
+    --tls-key "./certs/c8.sonic.cisco.com.key" \
+    -u cisco -p cisco123 \
+    capabilities
+    
+gNMI version: 0.7.0
+supported models:
+  - openconfig-acl, OpenConfig working group, 1.0.2
+  - openconfig-mclag, OpenConfig working group,
+  - openconfig-acl, OpenConfig working group,
+  - openconfig-sampling-sflow, OpenConfig working group,
+  - openconfig-interfaces, OpenConfig working group,
+  - openconfig-lldp, OpenConfig working group, 1.0.2
+  - openconfig-platform, OpenConfig working group, 1.0.2
+  - openconfig-system, OpenConfig working group, 1.0.2
+  - ietf-yang-library, IETF NETCONF (Network Configuration) Working Group, 2016-06-21
+  - sonic-db, SONiC, 0.1.0
+supported encodings:
+  - JSON
+  - JSON_IETF
+  - PROTO
+  ```
+  
+  
+## gNMI Articles
+  
+  1. [SONiC gNMI](../sonic_gnmi)
+  2. [Self Signed Certificate for gNMI](../selfSingnedCert)
+  3. [Building your own Public Key Infrastructure](../pkiInfra)
+  4. [SONiC Certificates Deployment Automation](../sonicCertAutoDeployment)
+
 
 
 
