@@ -54,7 +54,7 @@ tls_deployment.yaml ansible playbook runs the following tasks:
 - copy certificates to SONiC nodes
 - restart gnmi contaner
 
-Here you can find `tls_deployment.yaml` playbook used for the lab: 
+Here you can find `tls_deployment.yaml` playbook used for the lab: [tls_deployment.yaml](https://github.com/sedoychel/sonicCertAutoDeployment/blob/main/playbooks/tls_deployment.yaml)
 
 ## Deploying Certificates
 
