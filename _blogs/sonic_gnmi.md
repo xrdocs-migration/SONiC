@@ -198,7 +198,7 @@ Based on it the expected configuration would be:
 
 ```
 {
-    "TELEMETRY": {
+    "GNMI": {
         "certs": {
             "ca_crt": "",
             "server_crt": "",
