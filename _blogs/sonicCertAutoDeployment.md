@@ -66,7 +66,7 @@ ansible-playbook -i inventories/hosts.yaml playbooks/tls_deployment.yaml
 
 Example output. The deployment is limited to c8 host only:
 
-```
+``` hl_lines = "3"
 ansible-playbook -i inventories/hosts.yaml playbooks/tls_deployment.yaml
 
 PLAY [TLS setup on local host] **************************************************************************
