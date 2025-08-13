@@ -121,9 +121,11 @@ changed: [c8]
 PLAY RECAP **********************************************************************************************
 c8                         : <mark>ok=10</mark>   changed=8    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 localhost                  : ok=5    changed=4    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+<span style="color:red">some *red* text</span>
 ```
 
 Highlight <mark>test</mark>
+<span style="color:red">some *red* text</span>
 
 ## Test gNMI
 
