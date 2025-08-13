@@ -1,7 +1,7 @@
 ---
 published: true
 date: '2025-07-31 14:26 +0200'
-title: Building your own Public Key Infrastructure
+title: Building your own SONiC Public Key Infrastructure
 author: Alexei Kiritchenko
 excerpt: Building Public Key Infrastructure in the lab environment
 tags:
@@ -13,6 +13,7 @@ position: hidden
 
 {% include toc %}
 
+## Introduction
 
 The Public key infrastructure (PKI) is used to create, distribute, mange digital certificates and keys. In this article we go over steps and deploying your own PKI lab infrastructure
 
@@ -20,7 +21,7 @@ The Public key infrastructure (PKI) is used to create, distribute, mange digital
 
 ## Steps on building your own Public Key lab Infrastructure
 
-Steps on building your own Public Key lab Infrastructure
+Those are the steps required to build your own public key infrastructure:
 
 - Create Self-Signed CA Root certificate
 - Add SONiC devices to PKI
