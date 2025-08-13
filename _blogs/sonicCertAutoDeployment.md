@@ -119,11 +119,11 @@ TASK [Restart Docker gnmi container] *******************************************
 changed: [c8]
 
 PLAY RECAP **********************************************************************************************
-c8                         : ==ok=10==   changed=8    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+c8                         : <mark>ok=10</mark>   changed=8    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 localhost                  : ok=5    changed=4    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 ```
 
-Highlight ==test==
+Highlight <mark>test</mark>
 
 ## Test gNMI
 
