@@ -1,7 +1,7 @@
 ---
 published: true
 date: '2025-07-30 14:26 +0200'
-title: Self Signed Certificate for gNMI
+title: Self Signed Certificate for gNMI on SONiC
 author: Alexei Kiritchenko
 excerpt: Self Signed Certificate for SONiC gNMI
 tags:
@@ -12,6 +12,8 @@ position: hidden
 ---
 
 {% include toc %}
+
+## Introduction
 
 When setting up secure connections, certificates are essential for encrypting data and verifying identities. Self-signed certificates are not issued by a Certificate Authority. Instead, they are created and signed by the same entity that will use them. Self-signed certificates are easy to create and are free, making them a popular choice for testing, internal networks, or lab environments.
 
@@ -53,6 +55,40 @@ GNMI config is located in `/etc/sonic/config_db.json`, where the default certifi
       "port": "50051"
     }
   },
+```
+
+I am not aware of any `show` commands to verify the used certificates. Let's just look at the running parameters of the telemetry process and check server_crt, server_key and ca_crt values
+
+```
+docker exec gnmi ps -ef | grep telemetry
+root          24       1  0 Aug06 pts/0    00:34:41 /usr/sbin/telemetry -logtostderr --server_crt /etc/sonic/telemetry/streamingtelemetryserver.cer --server_key /etc/sonic/telemetry/streamingtelemetryserver.key --ca_crt /etc/sonic/telemetry/dsmsroot.cer --port 50051 -v=2 --threshold 100 --idle_conn_duration 5
+```
+
+Let's do somehting fancy and print just informaiton we need.
+
+**Note:** the command below was AI generated.
+{: .notice--primary}
+
+```
+docker exec gnmi ps -ef | \
+grep "/usr/sbin/telemetry" | awk '{
+    for (i=1; i<=NF; i++) {
+        if ($i == "--server_crt") {
+            print "--server_crt " $(i+1);
+        } else if ($i == "--server_key") {
+            print "--server_key " $(i+1);
+        } else if ($i == "--ca_crt") {
+            print "--ca_crt " $(i+1);
+        }
+    }
+}'
+```
+
+The output:
+```
+--server_crt /etc/sonic/telemetry/streamingtelemetryserver.cer
+--server_key /etc/sonic/telemetry/streamingtelemetryserver.key
+--ca_crt /etc/sonic/telemetry/dsmsroot.cer
 ```
 
 ### Working Directory
