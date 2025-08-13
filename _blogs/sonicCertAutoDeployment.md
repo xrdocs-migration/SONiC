@@ -66,7 +66,7 @@ ansible-playbook -i inventories/hosts.yaml playbooks/tls_deployment.yaml
 
 Example output. The deployment is limited to c8 host only:
 
-``` hl_lines = "3"
+``` diff
 ansible-playbook -i inventories/hosts.yaml playbooks/tls_deployment.yaml
 
 PLAY [TLS setup on local host] **************************************************************************
@@ -119,13 +119,11 @@ TASK [Restart Docker gnmi container] *******************************************
 changed: [c8]
 
 PLAY RECAP **********************************************************************************************
-c8                         : <mark>ok=10</mark>   changed=8    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
-localhost                  : ok=5    changed=4    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
-<span style="color:red">some *red* text</span>
++ c8                         : ok=10   changed=8    unreachable=0    failed=0    skipped=0 rescued=0    ignored=0
++ localhost                  : ok=5    changed=4    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
 ```
 
-Highlight <mark>test</mark>
-<span style="color:red">some *red* text</span>
 
 ## Test gNMI
 
