@@ -989,3 +989,9 @@ Collecting info from requested paths (Get operation)...
 ## Conclusion 
 
 In this article, we explored how to configure and use gNMI on SONiC, including identifying the gNMI subsystem, configuring telemetry settings, and testing with gNMI clients like pygnmi and gnmic. We also demonstrated how to fetch configuration and telemetry data. In the next article, we’ll cover creating self-signed certificates for SONiC. Stay tuned!
+
+
+## gNMI Articles
+  
+  1. [SONiC gNMI](../sonic_gnmi)
+  2. [Self Signed Certificate for gNMI](../selfSingnedCert)
