@@ -1,6 +1,6 @@
 ---
 published: true
-date: '2025-07-30 14:26 +0200'
+date: '2025-08-20 14:26 +0200'
 title: Self Signed Certificate for gNMI on SONiC
 author: Alexei Kiritchenko
 excerpt: Self Signed Certificate for SONiC gNMI
