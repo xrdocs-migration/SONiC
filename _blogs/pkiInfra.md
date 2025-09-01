@@ -1,5 +1,5 @@
 ---
-published: false
+published: true
 date: '2025-07-31 14:26 +0200'
 title: Building your own SONiC Public Key Infrastructure
 author: Alexei Kiritchenko
@@ -8,7 +8,7 @@ tags:
   - cisco
   - sonic
   - gnmi
-position: hidden
+position: top
 ---
 
 {% include toc %}
