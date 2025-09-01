@@ -1,6 +1,6 @@
 ---
 published: true
-date: '2025-07-31 14:26 +0200'
+date: '2025-09-01 07:36 +0200'
 title: Building your own SONiC Public Key Infrastructure
 author: Alexei Kiritchenko
 excerpt: Building Public Key Infrastructure in the lab environment
