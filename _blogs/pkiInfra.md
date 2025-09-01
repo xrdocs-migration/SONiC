@@ -1,5 +1,5 @@
 ---
-published: true
+published: false
 date: '2025-07-31 14:26 +0200'
 title: Building your own SONiC Public Key Infrastructure
 author: Alexei Kiritchenko
@@ -299,4 +299,4 @@ supported encodings:
   1. [SONiC gNMI](../sonic_gnmi)
   2. [Self Signed Certificate for gNMI](../selfSingnedCert)
   3. [Building your own Public Key Infrastructure](../pkiInfra)
-  4. [SONiC Certificates Deployment Automation](../sonicCertAutoDeployment)
+
