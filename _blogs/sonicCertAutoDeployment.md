@@ -1,6 +1,6 @@
 ---
 published: true
-date: '2025-08-6 10:21 +0200'
+date: '2025-09-15 09:16 +0200'
 title: SONiC Certificates Deployment Automation
 author: Alexei Kiritchenko
 excerpt: Self Signed Certificate for SONiC gNMI
@@ -8,7 +8,7 @@ tags:
   - cisco
   - sonic
   - gnmi
-position: hidden
+position: top
 ---
 
 {% include toc %}
