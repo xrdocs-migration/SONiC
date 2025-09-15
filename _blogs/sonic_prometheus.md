@@ -11,6 +11,7 @@ tags:
   - telemetry
   - prometheus
 ---
+![Screenshot 2025-09-15 at 15.22.52.jpg]({{site.baseurl}}/images/Screenshot 2025-09-15 at 15.22.52.jpg)
 
 {% include toc %}
 
@@ -67,7 +68,3 @@ cd prometheus-3.0.0-beta.1.linux-amd64/
 Server is run on port :9090, so in our lab that would be `http://172.20.166.81:9090/query`
 
 ![server](../../images/telemetry/image.png)
-
-
-
-
