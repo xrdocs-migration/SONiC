@@ -11,8 +11,6 @@ tags:
   - telemetry
   - prometheus
 ---
-![Screenshot 2025-09-15 at 15.40.34.jpg]({{site.baseurl}}/images/Screenshot 2025-09-15 at 15.40.34.jpg)
-
 {% include toc %}
 
 ## Introduction
