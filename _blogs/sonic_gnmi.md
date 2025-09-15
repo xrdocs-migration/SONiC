@@ -996,3 +996,4 @@ In this article, we explored how to configure and use gNMI on SONiC, including i
   1. [SONiC gNMI](../sonic_gnmi)
   2. [Self Signed Certificate for gNMI](../selfSingnedCert)
   3. [Building your own Public Key Infrastructure](../pkiInfra)
+  4. [SONiC Certificates Deployment Automation](../sonicCertAutoDeployment)
