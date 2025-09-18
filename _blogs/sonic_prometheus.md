@@ -71,9 +71,14 @@ Server is run on port :9090, so in our lab that would be `http://172.20.166.81:9
 
 ## Prometheus Exporter 
 
-**Test Exporter Lanuch**
+**Test Exporter Launch**
 
-A Prometheus exporter is a component or application that collects and exposes metrics from a system, application, or service in a format that Prometheus can scrape and ingest. Exporters act as intermediaries that gather data from sources (like databases, hardware, network devices, or operating systems) and transform this data into the standard format Prometheus requires.
+A Prometheus exporter is a component or application that collects and exposes metrics from a system, application, or service in a format that Prometheus can scrape and ingest. Exporters act as intermediaries that gather data from sources (like databases, hardware, network devices, or operating systems) and transform this data into the standard format Prometheus requires.   
+
+One of the key advantages of SONiC is that its open-source NOS runs on top of Linux Debian. This means you can run the Prometheus exporter directly on your SONiC switches, eliminating the need for separate monitoring appliances. It’s this open, flexible foundation that sets SONiC apart: because it’s essentially a Linux server under the hood, you can also install familiar DevOps tools like Salt, Puppet, or Chef agents right on your network devices to automate configurations and simplilfy operations.
+
+
+This level of flexibility is a major strength of SONiC, allowing you to treat your network switches much like any other server in your infrastructure.
 
 EXPORTERS AND INTEGRATIONS <https://prometheus.io/docs/instrumenting/exporters/>
 
@@ -89,7 +94,7 @@ node_exporter-1.8.2.linux-amd64/node_exporter
 node_exporter-1.8.2.linux-amd64/LICENSE
 ```
 
-Lanch the exporter:
+Launch the exporter:
 
 ```console
 cisco@c1:~$ ./node_exporter-1.8.2.linux-amd64/node_exporter &
