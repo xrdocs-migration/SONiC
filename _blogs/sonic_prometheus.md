@@ -1,10 +1,10 @@
 ---
 published: true
-date: '2025-09-15 17:51 +0200'
+date: '2025-10-16 15:27 +0200'
 title: Integrating Prometheus with SONiC
 author: Alexei Kiritchenko
 excerpt: monitor SONiC network devices with Prometheus
-position: hidden
+position: top
 tags:
   - sonic
   - gnmi
@@ -316,5 +316,3 @@ While gNMI offers high-performance telemetry for SONiC, the method outlined in t
   3. [Building your own Public Key Infrastructure](../pkiInfra)
   4. [SONiC Certificates Deployment Automation](../sonicCertAutoDeployment)
   5. [Integrating Prometheus with SONiC](../sonic_prometheus)
- 
- 
