@@ -286,8 +286,8 @@ tags:
 
 
 prose:
-  siteurl: 'https://xrdocs.github.io/ncs5500/'
-  relativeLinks: 'https://xrdocs.github.io/ncs5500/links.jsonp'
+  siteurl: 'https://d101lr0mb7xh5s.cloudfront.net/SONIC/'
+  relativeLinks: 'https://d101lr0mb7xh5s.cloudfront.net/SONIC//links.jsonp'
   media: 'images'
   ignore:
     - index.md
